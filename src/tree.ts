@@ -55,8 +55,8 @@ class TreeNode {
 
 class TreePhysics {
   constructor(canvas) {
-    this.engine = Engine.create();
-    this.world = this.engine.world;
+    let engine =  this.engine = Engine.create();
+   let world = this.world = this.engine.world;
 
     const width = canvas.width;
     const height = canvas.height;
@@ -64,19 +64,18 @@ class TreePhysics {
     this.render = Render.create({
       canvas,
       engine: this.engine,
-      options: { width, height, wireframes: false, background: '#0b1020' },
+      options: { wireframes: false, background: '#0b1020' },
     });
-    Render.run(this.render);
-    this.runner = Runner.create();
-    Runner.run(this.runner, this.engine);
+
+    Render.run(render);
 
     // Optional walls to keep things on screen
     const wallOpts = { isStatic: true, render: { visible: false } };
-    World.add(this.world, [
-      Bodies.rectangle(width / 2, -50, width, 100, wallOpts),
-      Bodies.rectangle(width / 2, height + 50, width, 100, wallOpts),
-      Bodies.rectangle(-50, height / 2, 100, height, wallOpts),
-      Bodies.rectangle(width + 50, height / 2, 100, height, wallOpts),
+    World.add(world, [
+      Bodies.rectangle(canvas.width / 2, -50, canvas.width, 100, wallOpts),
+      Bodies.rectangle(canvas.width / 2, canvas.height + 50, canvas.width, 100, wallOpts),
+      Bodies.rectangle(-50, canvas.height / 2, 100, canvas.height, wallOpts),
+      Bodies.rectangle(canvas.width + 50, canvas.height / 2, 100, canvas.height, wallOpts),
     ]);
 
     // Mouse drag
@@ -85,7 +84,7 @@ class TreePhysics {
       mouse,
       constraint: { stiffness: 0.2, render: { visible: false } },
     });
-    World.add(this.world, mouseConstraint);
+    World.add(world, mouseConstraint);
     this.render.mouse = mouse;
 
     // bookkeeping
@@ -97,7 +96,7 @@ class TreePhysics {
     Events.on(this.engine, 'beforeUpdate', () => this.applyForces());
     window.addEventListener('resize', () => {
       this.center.x = this.render.canvas.width * 0.5;
-      this.center.y = this.render.canvas.height * 0.45;
+      this.center.y = this.render.canvas.height * 0.5;
     });
   }
 
