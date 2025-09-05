@@ -61,7 +61,7 @@ class TreePhysics {
     const width = canvas.width;
     const height = canvas.height;
 
-    this.render = Render.create({
+    let render = this.render = Render.create({
       canvas,
       engine: this.engine,
       options: { wireframes: false, background: '#0b1020' },
